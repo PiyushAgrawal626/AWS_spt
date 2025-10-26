@@ -31,9 +31,8 @@ function App() {
     setAppState('loading');
 
     try {
-      // Call our backend API
-      // This is the CORRECT line:
-        const response = await axios.post('http://127.0.0.1:5000/upload', formData, {
+      // ✅ CHANGE THIS LINE: Use a relative path instead of a hardcoded URL.
+      const response = await axios.post('/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
@@ -44,7 +43,9 @@ function App() {
 
     } catch (error) {
       console.error('Error uploading file:', error);
-      alert('Failed to process PDF. Please try again.');
+      // Display the specific error from the backend if it exists
+      const errorMessage = error.response?.data?.error || 'Failed to process PDF. Please try again.';
+      alert(errorMessage);
       setAppState('upload');
     }
   };
@@ -80,7 +81,7 @@ function App() {
   };
 
   // == RENDER THE CORRECT VIEW ==
-
+  
   return (
     <div className="app-container">
       <h1>PDF Summarizer & Quizzer</h1>
