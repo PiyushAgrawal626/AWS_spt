@@ -84,7 +84,7 @@ function App() {
   
   return (
     <div className="app-container">
-      <h1>PDF Summarizer & Quizzer</h1>
+      <h1>PDF Quizzer v2</h1>
 
       {/* VIEW 1: UPLOAD PAGE */}
       {appState === 'upload' && (
