@@ -1,103 +1,138 @@
+/* Import a clean, modern font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Basic setup and variables */
+:root {
+  --primary-color: #2c3e50;
+  --secondary-color: #3498db;
+  --background-color: #f4f7f6;
+  --card-background: #ffffff;
+  --text-color: #333;
+  --light-gray: #ecf0f1;
+  --success-color: #2ecc71;
+  --error-color: #e74c3c;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background-color: #f4f7f6;
-  color: #333;
-  line-height: 1.6;
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Main App Container */
+.app-container {
+  width: 100%;
+  max-width: 600px;
   padding: 20px;
 }
 
-.app-container {
-  max-width: 800px;
-  margin: 0 auto;
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  padding: 2rem;
-}
-
-h1, h2 {
-  color: #1a535c;
-}
-
-.file-upload {
-  margin-bottom: 20px;
-}
-
-.file-upload input {
-  margin-right: 10px;
-}
-
-button {
-  background-color: #4ecdc4;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.2s;
-}
-
-button:hover {
-  background-color: #3aa39b;
-}
-
-button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
-}
-
-.loading {
+.upload-box {
+  background-color: var(--card-background);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   text-align: center;
-  font-weight: bold;
-  color: #1a535c;
+  border: 1px solid var(--light-gray);
 }
 
-.summary {
-  background: #f4f7f6;
-  padding: 15px;
-  border-radius: 5px;
+.upload-icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 20px;
+  color: var(--secondary-color);
+}
+
+.upload-box h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 10px;
+}
+
+.upload-box p {
+  font-size: 1rem;
+  color: #7f8c8d;
   margin-bottom: 30px;
 }
 
-.quiz-form .question {
-  margin-bottom: 20px;
+/* Custom File Input Styling */
+.file-input-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-right: 15px;
 }
 
-.quiz-form .options {
-  display: flex;
-  flex-direction: column;
+.file-input-wrapper input[type="file"] {
+  display: none; /* Hide the default input */
 }
 
-.quiz-form label {
-  margin: 5px 0;
-  padding: 8px;
-  border-radius: 5px;
+.file-input-label {
+  background-color: #ffffff;
+  color: var(--primary-color);
+  border: 2px solid var(--light-gray);
+  padding: 12px 25px;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
-.quiz-form label:hover {
-  background: #f0f0f0;
+.file-input-label:hover {
+  background-color: var(--light-gray);
+  border-color: #bdc3c7;
 }
 
-.report {
+#file-name {
+  margin-top: 15px;
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+/* Main Action Button Styling */
+.generate-button {
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  padding: 14px 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.generate-button:hover:not(:disabled) {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+}
+
+.generate-button:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+/* Loading State Styling */
+.loading {
   text-align: center;
+  padding: 40px;
 }
 
-.report-details {
-  text-align: left;
-  margin-top: 20px;
-  background: #f9f9f9;
-  padding: 15px;
-  border-radius: 5px;
-}
-
-.correct {
-  color: green;
-}
-
-.incorrect {
-  color: red;
-  text-decoration: line-through;
+/* Ensure quiz and report views also have styling (you can expand this later) */
+.quiz-container, .report {
+  background-color: var(--card-background);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--light-gray);
 }
