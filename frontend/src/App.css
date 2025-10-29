@@ -25,8 +25,9 @@ body {
   color: var(--text-color);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; /* Align to top */
   min-height: 100vh;
+  padding-top: 5vh; /* Add some space from the top */
 }
 
 /* Main App Container */
@@ -128,7 +129,7 @@ body {
   padding: 40px;
 }
 
-/* Ensure quiz and report views also have styling (you can expand this later) */
+/* Quiz and report views */
 .quiz-container, .report {
   background-color: var(--card-background);
   padding: 40px;

@@ -112,21 +112,21 @@ function App() {
         </div>
       )}
 
-      {/* ✅ CORRECTED VIEW 3: QUIZ PAGE */}
+      {/* VIEW 3: QUIZ PAGE */}
       {appState === 'quiz' && (
         <div className="quiz-container">
           <h2>Summary</h2>
-          <div className="summary" style={{ marginBottom: '30px', padding: '15px', border: '1px solid #eee', borderRadius: '8px' }}>
-            <p>{summary}</p>
+          <div className="summary" style={{ marginBottom: '30px', padding: '15px', border: '1px solid #eee', borderRadius: '8px', background: '#f9f9f9' }}>
+            <p style={{ whiteSpace: 'pre-wrap' }}>{summary}</p>
           </div>
           <h2>Quiz</h2>
           <form className="quiz-form">
             {questions.map((q, qIndex) => (
-              <div key={qIndex} className="question" style={{ marginBottom: '20px' }}>
+              <div key={qIndex} className="question" style={{ marginBottom: '20px', paddingBottom: '20px', borderBottom: '1px solid #eee' }}>
                 <strong>{qIndex + 1}. {q.question}</strong>
                 <div className="options" style={{ display: 'flex', flexDirection: 'column', marginTop: '10px' }}>
                   {q.options.map((option, oIndex) => (
-                    <label key={oIndex} style={{ margin: '5px 0' }}>
+                    <label key={oIndex} style={{ margin: '5px 0', cursor: 'pointer' }}>
                       <input
                         type="radio"
                         name={`question-${qIndex}`}
@@ -145,21 +145,25 @@ function App() {
         </div>
       )}
 
-      {/* ✅ CORRECTED VIEW 4: REPORT PAGE */}
+      {/* VIEW 4: REPORT PAGE */}
       {appState === 'report' && (
         <div className="report">
           <h2>Your Performance Report</h2>
-          <h3>Your Score: {score} / {questions.length}</h3>
+          <h3>
+            Your Score: {score} / {questions.length}
+          </h3>
           <div className="report-details">
             <h4>Review Your Answers:</h4>
             {questions.map((q, index) => (
-              <div key={index} className="question" style={{ marginBottom: '20px', padding: '10px', borderRadius: '8px', border: '1px solid #eee' }}>
+              <div key={index} className="question" style={{ marginBottom: '20px', padding: '15px', borderRadius: '8px', border: '1px solid #eee' }}>
                 <strong>{index + 1}. {q.question}</strong>
-                <p className={userAnswers[index] === q.answer ? 'correct' : 'incorrect'} style={{ color: userAnswers[index] === q.answer ? 'green' : 'red' }}>
+                <p className={userAnswers[index] === q.answer ? 'correct' : 'incorrect'} style={{ color: userAnswers[index] === q.answer ? 'var(--success-color)' : 'var(--error-color)', fontWeight: '500' }}>
                   Your answer: {userAnswers[index] || "No answer"}
                 </p>
                 {userAnswers[index] !== q.answer && (
-                  <p className="correct" style={{ color: 'green' }}>Correct answer: {q.answer}</p>
+                  <p className="correct" style={{ color: 'var(--success-color)', fontWeight: '500' }}>
+                    Correct answer: {q.answer}
+                  </p>
                 )}
               </div>
             ))}
