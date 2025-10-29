@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
-import './App.css'; // The new CSS file we created
+import './App.css'; // The new CSS file
 
 function App() {
   const [file, setFile] = useState(null);
@@ -47,18 +47,27 @@ function App() {
     }
   };
 
-  // Quiz logic (unchanged)
-  const handleAnswerChange = (qIndex, option) => {
-    setUserAnswers({ ...userAnswers, [qIndex]: option });
+  // Store user's answer for a question
+  const handleAnswerChange = (questionIndex, selectedOption) => {
+    setUserAnswers({
+      ...userAnswers,
+      [questionIndex]: selectedOption,
+    });
   };
+
+  // Grade the quiz
   const handleSubmitQuiz = () => {
     let correctCount = 0;
     questions.forEach((q, index) => {
-      if (userAnswers[index] === q.answer) correctCount++;
+      if (userAnswers[index] === q.answer) {
+        correctCount++;
+      }
     });
     setScore(correctCount);
     setAppState('report');
   };
+
+  // Reset and go back to the start
   const handleReset = () => {
     setFile(null);
     setFileName('No file chosen');
@@ -102,16 +111,62 @@ function App() {
           <p>This may take a moment. 🤖</p>
         </div>
       )}
-      
-      {/* Quiz and Report views will inherit new card styling */}
+
+      {/* ✅ CORRECTED VIEW 3: QUIZ PAGE */}
       {appState === 'quiz' && (
         <div className="quiz-container">
-            {/* ... (quiz content unchanged) ... */}
+          <h2>Summary</h2>
+          <div className="summary" style={{ marginBottom: '30px', padding: '15px', border: '1px solid #eee', borderRadius: '8px' }}>
+            <p>{summary}</p>
+          </div>
+          <h2>Quiz</h2>
+          <form className="quiz-form">
+            {questions.map((q, qIndex) => (
+              <div key={qIndex} className="question" style={{ marginBottom: '20px' }}>
+                <strong>{qIndex + 1}. {q.question}</strong>
+                <div className="options" style={{ display: 'flex', flexDirection: 'column', marginTop: '10px' }}>
+                  {q.options.map((option, oIndex) => (
+                    <label key={oIndex} style={{ margin: '5px 0' }}>
+                      <input
+                        type="radio"
+                        name={`question-${qIndex}`}
+                        value={option}
+                        onChange={() => handleAnswerChange(qIndex, option)}
+                        style={{ marginRight: '10px' }}
+                      />
+                      {option}
+                    </label>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </form>
+          <button onClick={handleSubmitQuiz} className="generate-button">Submit Quiz</button>
         </div>
       )}
+
+      {/* ✅ CORRECTED VIEW 4: REPORT PAGE */}
       {appState === 'report' && (
         <div className="report">
-            {/* ... (report content unchanged) ... */}
+          <h2>Your Performance Report</h2>
+          <h3>Your Score: {score} / {questions.length}</h3>
+          <div className="report-details">
+            <h4>Review Your Answers:</h4>
+            {questions.map((q, index) => (
+              <div key={index} className="question" style={{ marginBottom: '20px', padding: '10px', borderRadius: '8px', border: '1px solid #eee' }}>
+                <strong>{index + 1}. {q.question}</strong>
+                <p className={userAnswers[index] === q.answer ? 'correct' : 'incorrect'} style={{ color: userAnswers[index] === q.answer ? 'green' : 'red' }}>
+                  Your answer: {userAnswers[index] || "No answer"}
+                </p>
+                {userAnswers[index] !== q.answer && (
+                  <p className="correct" style={{ color: 'green' }}>Correct answer: {q.answer}</p>
+                )}
+              </div>
+            ))}
+          </div>
+          <button onClick={handleReset} className="generate-button" style={{ marginTop: '20px' }}>
+            Try Another PDF
+          </button>
         </div>
       )}
     </div>
