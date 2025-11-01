@@ -1,139 +1,530 @@
-/* Import a clean, modern font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-
-/* Basic setup and variables */
-:root {
-  --primary-color: #2c3e50;
-  --secondary-color: #3498db;
-  --background-color: #f4f7f6;
-  --card-background: #ffffff;
-  --text-color: #333;
-  --light-gray: #ecf0f1;
-  --success-color: #2ecc71;
-  --error-color: #e74c3c;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: 'Poppins', sans-serif;
-  background-color: var(--background-color);
-  color: var(--text-color);
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; /* Align to top */
-  min-height: 100vh;
-  padding-top: 5vh; /* Add some space from the top */
-}
-
-/* Main App Container */
-.app-container {
-  width: 100%;
-  max-width: 600px;
+/* body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: #f4f7f6;
+  color: #333;
+  line-height: 1.6;
   padding: 20px;
 }
 
-.upload-box {
-  background-color: var(--card-background);
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  border: 1px solid var(--light-gray);
-}
-
-.upload-icon {
-  width: 60px;
-  height: 60px;
-  margin-bottom: 20px;
-  color: var(--secondary-color);
-}
-
-.upload-box h1 {
-  font-size: 2rem;
-  font-weight: 600;
-  color: var(--primary-color);
-  margin-bottom: 10px;
-}
-
-.upload-box p {
-  font-size: 1rem;
-  color: #7f8c8d;
-  margin-bottom: 30px;
-}
-
-/* Custom File Input Styling */
-.file-input-wrapper {
-  position: relative;
-  display: inline-block;
-  margin-right: 15px;
-}
-
-.file-input-wrapper input[type="file"] {
-  display: none; /* Hide the default input */
-}
-
-.file-input-label {
-  background-color: #ffffff;
-  color: var(--primary-color);
-  border: 2px solid var(--light-gray);
-  padding: 12px 25px;
+.app-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #ffffff;
   border-radius: 8px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
 }
 
-.file-input-label:hover {
-  background-color: var(--light-gray);
-  border-color: #bdc3c7;
+h1, h2 {
+  color: #1a535c;
 }
 
-#file-name {
-  margin-top: 15px;
-  color: #7f8c8d;
-  font-style: italic;
+.file-upload {
+  margin-bottom: 20px;
 }
 
-/* Main Action Button Styling */
-.generate-button {
-  background-color: var(--secondary-color);
+.file-upload input {
+  margin-right: 10px;
+}
+
+button {
+  background-color: #4ecdc4;
   color: white;
   border: none;
-  padding: 14px 30px;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 8px;
+  padding: 10px 15px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  font-size: 16px;
+  transition: background-color 0.2s;
 }
 
-.generate-button:hover:not(:disabled) {
-  background-color: #2980b9;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+button:hover {
+  background-color: #3aa39b;
 }
 
-.generate-button:disabled {
-  background-color: #95a5a6;
+button:disabled {
+  background-color: #cccccc;
   cursor: not-allowed;
 }
 
-/* Loading State Styling */
 .loading {
   text-align: center;
-  padding: 40px;
+  font-weight: bold;
+  color: #1a535c;
 }
 
-/* Quiz and report views */
-.quiz-container, .report {
-  background-color: var(--card-background);
-  padding: 40px;
+.summary {
+  background: #f4f7f6;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 30px;
+}
+
+.quiz-form .question {
+  margin-bottom: 20px;
+}
+
+.quiz-form .options {
+  display: flex;
+  flex-direction: column;
+}
+
+.quiz-form label {
+  margin: 5px 0;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.quiz-form label:hover {
+  background: #f0f0f0;
+}
+
+.report {
+  text-align: center;
+}
+
+.report-details {
+  text-align: left;
+  margin-top: 20px;
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.correct {
+  color: green;
+}
+
+.incorrect {
+  color: red;
+  text-decoration: line-through;
+} */
+ /* frontend/src/App.css */
+
+/* Add a fade-in animation for the main container */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.app-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 2rem;
+  background: var(--container-bg);
   border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--light-gray);
+  box-shadow: 0 8px 30px var(--shadow-color);
+  padding: 2rem 3rem;
+  animation: fadeIn 0.5s ease-out;
+}
+
+h1, h2 {
+  color: var(--header-color);
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 2rem;
+}
+
+h2 {
+  margin-bottom: 1.5rem;
+}
+
+/* --- File Upload View --- */
+.file-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem; /* Consistent spacing between elements */
+  padding: 2rem;
+  border: 2px dashed #d0dbe5;
+  border-radius: 8px;
+  background-color: #f9fcff;
+}
+
+.file-upload p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #555;
+  text-align: center;
+}
+
+.file-upload input[type="file"]::file-selector-button {
+  /* Style the "Choose File" button */
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+}
+
+.file-upload input[type="file"]::file-selector-button:hover {
+  background-color: var(--primary-hover-color);
+}
+
+/* --- General Button Styles --- */
+button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: var(--primary-hover-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* --- Loading View --- */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+}
+
+.loading::before {
+  content: '';
+  display: block;
+  margin: 0 auto 1.5rem auto;
+  width: 50px;
+  height: 50px;
+  border: 5px solid #e0e0e0;
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* --- Summary & Quiz View --- */
+.summary {
+  background: var(--secondary-color);
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2.5rem;
+  border-left: 5px solid var(--primary-color);
+}
+
+.quiz-form .question {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.quiz-form .question:last-of-type {
+  border-bottom: none;
+}
+
+.quiz-form .options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* Space between options */
+  margin-top: 1rem;
+}
+
+.quiz-form label {
+  display: block;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.quiz-form label:hover {
+  background: #f0f8ff;
+  border-color: var(--primary-color);
+}
+
+.quiz-form input[type="radio"] {
+  margin-right: 10px;
+}
+
+/* --- Report View --- */
+.report {
+  text-align: center;
+}
+
+.report h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.report-details {
+  text-align: left;
+  margin-top: 2rem;
+}
+
+.report-details .question {
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.correct {
+  color: var(--correct-color);
+  font-weight: 500;
+}
+
+.incorrect {
+  color: var(--incorrect-color);
+  text-decoration: line-through;
+}
+
+.report-details p {
+  margin: 0.5rem 0;
+}
+
+/* ADD THESE STYLES TO THE END OF App.css */
+
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem; /* Adjust as needed */
+}
+
+.summary-header h2 {
+  margin-bottom: 0; /* Remove default margin */
+}
+
+.download-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+}
+/* === Circular Accuracy Meter === */
+.accuracy-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1.5rem 0;
+}
+
+.circular-chart {
+  width: 150px;
+  height: 150px;
+  transform: rotate(-90deg);
+}
+
+.circle-bg {
+  fill: none;
+  stroke: #eee;
+  stroke-width: 3.8;
+}
+
+.circle {
+  fill: none;
+  stroke-width: 3.8;
+  stroke: #4A90E2;
+  stroke-linecap: round;
+  animation: progress 1.5s ease-out forwards;
+}
+
+@keyframes progress {
+  0% {
+    stroke-dasharray: 0 100;
+  }
+}
+
+.percentage {
+  fill: #1A3A5C;
+  font-size: 0.5em;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  transform: rotate(90deg);
+}
+
+.mastery-level {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--header-color);
+}
+
+/* === Weak Topics === */
+.weak-topics {
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.weak-topics h3 {
+  color: var(--incorrect-color);
+}
+
+.weak-topics ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  color: #444;
+}
+
+.weak-topics li {
+  margin: 0.5rem 0;
+}
+
+/* === Mastery Level Badge === */
+.mastery-level-badge {
+  position: relative;
+  text-align: center;
+  padding: 1.8rem;
+  border-radius: 16px;
+  margin: 1.5rem auto;
+  width: 60%;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+  animation: fadeInUp 0.6s ease-out;
+  overflow: hidden;
+}
+
+.mastery-level-badge h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  z-index: 2;
+  position: relative;
+}
+
+.mastery-level-badge p {
+  font-size: 1rem;
+  font-weight: 500;
+  opacity: 0.9;
+  z-index: 2;
+  position: relative;
+}
+
+.badge-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  filter: blur(20px);
+  opacity: 0.5;
+  z-index: 1;
+}
+
+/* Mastery Levels — Gradient Backgrounds */
+.mastery-level-badge.basic {
+  background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+}
+.mastery-level-badge.basic .badge-glow {
+  background: radial-gradient(circle, #ff7f7f, transparent 70%);
+}
+
+.mastery-level-badge.advanced {
+  background: linear-gradient(135deg, #FFD54F, #FFB300);
+}
+.mastery-level-badge.advanced .badge-glow {
+  background: radial-gradient(circle, #ffe082, transparent 70%);
+}
+
+.mastery-level-badge.master {
+  background: linear-gradient(135deg, #81C784, #43A047);
+}
+.mastery-level-badge.master .badge-glow {
+  background: radial-gradient(circle, #a5d6a7, transparent 70%);
+}
+
+/* Entry animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Layout for Accuracy + Mastery Side-by-Side === */
+.performance-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+/* === Topics Section Layout === */
+.topics-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.strong-topics, .weak-topics {
+  flex: 1;
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.strong-topics h3 {
+  color: var(--correct-color);
+}
+
+.weak-topics h3 {
+  color: var(--incorrect-color);
+}
+
+.strong-topics ul, .weak-topics ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.strong-topics li, .weak-topics li {
+  margin: 0.3rem 0;
+}
+
+/* === Accuracy Circle Adjustments === */
+.accuracy-circle {
+  text-align: center;
+}
+
+.accuracy-circle p {
+  font-weight: 600;
+  margin-top: 0.5rem;
+  color: var(--header-color);
+}
+
+.percentage {
+  fill: #1A3A5C;
+  font-size: 0.5em;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  transform: rotate(90deg);
 }
