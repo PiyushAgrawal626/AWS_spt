@@ -16,16 +16,16 @@ import './App.css';
 function App() {
   const [file, setFile] = useState(null);
   const [appState, setAppState] = useState('upload');
-
   const [summary, setSummary] = useState('');
   const [questions, setQuestions] = useState([]);
   const [userAnswers, setUserAnswers] = useState({});
   const [score, setScore] = useState(0);
   const [accuracy, setAccuracy] = useState(0);
   const [masteryLevel, setMasteryLevel] = useState('');
-  const [areaData, setAreaData] = useState([]);
   const [weakTopics, setWeakTopics] = useState([]);
   const [strongTopics, setStrongTopics] = useState([]);
+  const [feedback, setFeedback] = useState('');
+
 
   // Download summary as PDF
   const handleDownloadSummary = () => {
@@ -54,7 +54,7 @@ function App() {
     formData.append('pdf', file);
     setAppState('loading');
     try {
-      const response = await axios.post('/upload', formData, {
+      const response = await axios.post('http://localhost:5000/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setSummary(response.data.summary);
@@ -75,45 +75,56 @@ function App() {
   };
 
   // Calculate performance analytics
-  const calculatePerformance = (correctCount, totalQuestions) => {
-    const acc = ((correctCount / totalQuestions) * 100).toFixed(2);
-    setAccuracy(acc);
+const calculatePerformance = (correctCount, totalQuestions) => {
+  const acc = ((correctCount / totalQuestions) * 100).toFixed(2);
+  setAccuracy(acc);
 
-    let mastery = '';
-    if (acc < 50) mastery = 'Basic';
-    else if (acc < 80) mastery = 'Advanced';
-    else mastery = 'Master';
-    setMasteryLevel(mastery);
+  let mastery = '';
+  if (acc < 50) mastery = 'Basic';
+  else if (acc < 80) mastery = 'Advanced';
+  else mastery = 'Master';
+  setMasteryLevel(mastery);
 
-    const strong = Math.round((correctCount / totalQuestions) * 10);
-    const weak = 10 - strong;
+  const weakQs = questions
+    .map((q, i) => (userAnswers[i] !== q.answer ? q.question : null))
+    .filter(Boolean);
+  const strongQs = questions
+    .map((q, i) => (userAnswers[i] === q.answer ? q.question : null))
+    .filter(Boolean);
 
-    const performanceData = [
-      { category: 'Strong Areas', score: strong },
-      { category: 'Weak Areas', score: weak },
-    ];
-    setAreaData(performanceData);
+  setWeakTopics(weakQs);
+  setStrongTopics(strongQs);
+};
 
-    const weakQs = questions
-      .map((q, i) => (userAnswers[i] !== q.answer ? q.question : null))
-      .filter(Boolean);
-    const strongQs = questions
-      .map((q, i) => (userAnswers[i] === q.answer ? q.question : null))
-      .filter(Boolean);
 
-    setWeakTopics(weakQs);
-    setStrongTopics(strongQs);
-  };
+const handleSubmitQuiz = async () => {
+  let correctCount = 0;
+  questions.forEach((q, index) => {
+    if (userAnswers[index] === q.answer) correctCount++;
+  });
+  setScore(correctCount);
+  calculatePerformance(correctCount, questions.length);
 
-  const handleSubmitQuiz = () => {
-    let correctCount = 0;
-    questions.forEach((q, index) => {
-      if (userAnswers[index] === q.answer) correctCount++;
+  // NEW: send answers to backend for AI analysis
+  try {
+    const response = await axios.post('http://localhost:5000/analyze', {
+      questions: questions,
+      userAnswers: userAnswers,
     });
-    setScore(correctCount);
-    calculatePerformance(correctCount, questions.length);
-    setAppState('report');
-  };
+
+    if (response.data) {
+      setStrongTopics(response.data.strong_areas || []);
+      setWeakTopics(response.data.weak_areas || []);
+      setFeedback(response.data.feedback || '');
+    }
+  } catch (error) {
+    console.error('Error analyzing performance:', error);
+    alert('Failed to analyze performance feedback.');
+  }
+
+  setAppState('report');
+};
+
 
   const handleReset = () => {
     setFile(null);
@@ -148,7 +159,6 @@ function App() {
           </button>
         </div>
       )}
-
       {appState === 'loading' && (
         <div className="loading">
           <h2>Processing your PDF...</h2>
@@ -244,18 +254,7 @@ function App() {
             </div>
           </div>
 
-          <div style={{ marginTop: '2rem', width: '100%', height: 300 }}>
-            <ResponsiveContainer>
-              <BarChart data={areaData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="category" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="score" fill={getBarColor()} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
+         
 
           {/* Strong and Weak Topics side-by-side */}
           <div className="topics-grid">
@@ -277,6 +276,11 @@ function App() {
               )}
             </div>
           </div>
+          <div className="feedback-section">
+            <h3>Personalized Feedback</h3>
+            <p>{feedback ? feedback : "No feedback available."}</p>
+          </div>
+
 
           <div className="report-details">
             <h4>Review Your Answers:</h4>
