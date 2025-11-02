@@ -107,7 +107,7 @@ const handleSubmitQuiz = async () => {
 
   // NEW: send answers to backend for AI analysis
   try {
-    const response = await axios.post('http://localhost:5000/analyze', {
+    const response = await axios.post('/analyze', {
       questions: questions,
       userAnswers: userAnswers,
     });
